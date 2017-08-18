@@ -12,11 +12,7 @@ val opts = Options().apply {
     addOption("h", "help", false, "显示帮助")
     addOptionGroup(OptionGroup().apply {
         addOption(Option("u", "unpack", false, "解包。"))
-        addOptionGroup(OptionGroup().apply {
-            addOption(Option("r", "patch", false, "封包。").apply { isRequired = true })
-            addOption(Option("e", "patch-dir", true, "指定用以替换数据包中文件的文件所在目录")
-                    .apply { isRequired = true; argName = "patch-dir" })
-        })
+        addOption(Option("r", "patch", false, "封包（需与-e配合使用）。"))
         isRequired = true
     })
     addOption(Option("s", "process-snx", false, "是否处理SNX格式数据"))
@@ -28,13 +24,16 @@ val opts = Options().apply {
     addOption(Option("l", "list", true, "指定.lst清单文件").apply { isRequired = true; argName = "lst-file" })
     addOption(Option("a", "package", true, "指定lcsebody数据包文件").apply { isRequired = true; argName = "package-file" })
     addOption(Option("d", "out-dir", true, "指定输出目录").apply { argName = "out-dir" })
+    addOption(Option("e", "patch-dir", true, "指定用以替换数据包中文件的文件所在目录")
+            .apply { isRequired = true; argName = "patch-dir" })
 }
 
 fun main(vararg args: String) {
     println("LC-ScriptEngine资源包封包处理实用工具 $VERSION\n\tBy Charlie Jiang\n\n")
     try {
         DefaultParser().parse(opts, args).apply {
-            if (options.isEmpty() || hasOption('h')) {
+            if (options.isEmpty() || hasOption('h')
+                    || (hasOption('r') && !hasOption('e')) || (hasOption('u') && hasOption('e'))) {
                 printUsageAndBoom()
             }
 
@@ -42,7 +41,7 @@ fun main(vararg args: String) {
                 it.map(FileChannel.MapMode.READ_ONLY, 0, it.size()).let { listBuffer ->
                     FileChannel.open(Paths.get(getOptionValue('a').removeSurrounding("\""))).use { packageChannel ->
                         val outDirectory =
-                                if (hasOption('u')) Paths.get(getOptionValue('d').removeSurrounding("\""))
+                                if (hasOption('d')) Paths.get(getOptionValue('d').removeSurrounding("\""))
                                 else if (hasOption('u')) Paths.get(".", "extracted") else Paths.get(".", "patched")
                         if (hasOption('u')) {
                             LCSEIndexList.readFromBuffer(listBuffer)
@@ -77,6 +76,7 @@ fun main(vararg args: String) {
             }
         }
     } catch(e: ParseException) {
+        e.printStackTrace()
         printUsageAndBoom()
     }
 
