@@ -25,7 +25,7 @@ val opts = Options().apply {
     addOption(Option("a", "package", true, "指定lcsebody数据包文件").apply { isRequired = true; argName = "package-file" })
     addOption(Option("d", "out-dir", true, "指定输出目录").apply { argName = "out-dir" })
     addOption(Option("e", "patch-dir", true, "指定用以替换数据包中文件的文件所在目录")
-            .apply { isRequired = true; argName = "patch-dir" })
+            .apply { argName = "patch-dir" })
 }
 
 fun main(vararg args: String) {
