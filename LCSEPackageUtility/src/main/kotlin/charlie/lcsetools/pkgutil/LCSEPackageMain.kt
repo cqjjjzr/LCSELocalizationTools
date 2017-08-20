@@ -41,7 +41,7 @@ fun main(vararg args: String) {
                 it.map(FileChannel.MapMode.READ_ONLY, 0, it.size()).let { listBuffer ->
                     FileChannel.open(Paths.get(getOptionValue('a').removeSurrounding("\""))).use { packageChannel ->
                         val outDirectory =
-                                if (hasOption('d')) Paths.get(getOptionValue('d').removeSurrounding("\""))
+                                if (hasOption('d')) Paths.get(getOptionValue('d').removeSurrounding("\"").removeSuffix("\""))
                                 else if (hasOption('u')) Paths.get(".", "extracted") else Paths.get(".", "patched")
                         if (hasOption('u')) {
                             LCSEIndexList.readFromBuffer(listBuffer)
@@ -60,6 +60,11 @@ fun main(vararg args: String) {
                                     .filter { it.isFile }
                                     .map { try { LCSEPatch(it.toPath()) } catch(e: Exception) { null } }
                                     .filterNotNull()
+                                    .filter { it.type != LCSEResourceType.SCRIPT || hasOption('s') }
+                                    .filter { it.type != LCSEResourceType.PNG_PICTURE || hasOption('p') }
+                                    .filter { it.type != LCSEResourceType.BMP_PICTURE || hasOption('b') }
+                                    .filter { it.type != LCSEResourceType.WAVE_AUDIO || hasOption('w') }
+                                    .filter { it.type != LCSEResourceType.OGG_AUDIO || hasOption('o') }
                                     .asIterable()
                             LCSEIndexList
                                     .readFromBuffer(listBuffer)

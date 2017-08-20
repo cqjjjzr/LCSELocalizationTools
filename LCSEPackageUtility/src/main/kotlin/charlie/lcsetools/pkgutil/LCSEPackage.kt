@@ -203,7 +203,10 @@ constructor(internal val typeId: Int,
 
         fun forExtensionName(extensionName: String): LCSEResourceType {
             return LCSEResourceType.values()
-                    .filter { it.extensionName == if (extensionName.startsWith(".")) extensionName else "." + extensionName }
+                    .filter { it.extensionName ==
+                            if (extensionName.startsWith("."))
+                                extensionName.toLowerCase()
+                            else "." + extensionName.toLowerCase() }
                     .firstOrNull() ?: UNKNOWN_1
         }
     }
