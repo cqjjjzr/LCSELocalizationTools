@@ -47,22 +47,4 @@ class GetTextWriterTest {
             }
         }
     }
-
-    @Test
-    fun patchXYWTest() {
-        File("""D:\无限錬姦\无限炼奸项目\无限炼奸项目\newsc\""").walkTopDown().filter { !it.isDirectory }
-                .forEach { file ->
-                    FileChannel.open(Paths.get("""D:\无限錬姦\mugen\originalSNX\""", file.nameWithoutExtension)).use {
-                        val originalBuf = it.map(FileChannel.MapMode.READ_ONLY, 0, it.size())
-                        val parsedSNX = parseRawSNXScript(readSNXScript(originalBuf))
-                        patchScriptWithXYWFormat(parsedSNX, file.toPath())
-                        Paths.get("""D:\无限錬姦\mugen\patchedSNX_xyw\""", file.nameWithoutExtension).apply {
-                            if (!Files.exists(this)) Files.createFile(this)
-                            FileChannel.open(this, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE).use {
-                                it.write(writeSNXScript(generateRawSNXScript(parsedSNX)))
-                            }
-                        }
-                    }
-                }
-    }
 }

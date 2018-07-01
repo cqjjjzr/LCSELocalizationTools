@@ -64,20 +64,3 @@ fun patchScript(script: LCSEParsedScript, path: Path) {
         else original
     }
 }
-
-fun patchScriptWithXYWFormat(script: LCSEParsedScript, path: Path) {
-    val regex = Regex("<(\\d{4})> (.*?)\\{(.*)}")
-    script.speakers.clear()
-    Files.readAllLines(path, Charsets.UTF_16LE).forEach {
-        regex.matchEntire(it.removePrefix("\uFEFF"))?.apply {
-            val (ordinal, speaker, content) = this.destructured
-            script.strings.removeIf { it.ordinal == ordinal.toInt() }
-            script.strings += LCSEDialogString(
-                    ordinal.toInt(),
-                    (script.speakers.find { it.name == speaker }
-                            ?: LCSESpeaker(script.speakers.size, speaker).apply { script.speakers += this }).ordinal,
-                    content.replace('}', '\n'))
-            script.strings.sortBy { it.ordinal }
-        }
-    }
-}
