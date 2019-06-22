@@ -18,8 +18,7 @@ data class LCSERawSNXInstruction(val instruction: Int,
                                  val param1: Int,
                                  val param2: Int) {
     companion object {
-        @JvmField
-        val INSTRUCTION_LENGTH = 4 * 3
+        const val INSTRUCTION_LENGTH = 4 * 3
     }
 
     override fun toString(): String {
