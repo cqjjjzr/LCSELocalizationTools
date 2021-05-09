@@ -4,7 +4,10 @@
     <option name="selectedGlobalProfile">
       <Settings>
         <option name="id" value="1479553650514" />
+        <option name="importOrderConfigFilePath" value="C:\Users\cqjjj\source\repos\Alchemy\Alchemy-IDEA-CodeFormat.xml" />
+        <option name="importOrderFromFile" value="true" />
         <option name="name" value="default" />
+        <option name="pathToConfigFileJava" value="C:\Users\cqjjj\source\repos\Alchemy\Alchemy-IDEA-CodeFormat.xml" />
       </Settings>
     </option>
   </component>

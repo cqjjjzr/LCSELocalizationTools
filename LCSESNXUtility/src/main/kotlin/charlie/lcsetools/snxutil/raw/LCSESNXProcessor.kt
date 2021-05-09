@@ -4,24 +4,25 @@ import charlie.lcsetools.snxutil.raw.LCSERawSNXInstruction.Companion.INSTRUCTION
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
+@Suppress("UsePropertyAccessSyntax")
 fun readSNXScript(buffer: ByteBuffer): LCSERawSNXScript {
     val leBuffer = buffer.order(ByteOrder.LITTLE_ENDIAN)
     return LCSERawSNXScript().apply {
-        val instructionsCount = leBuffer.int
-        val stringTableLength = leBuffer.int
+        val instructionsCount = leBuffer.getInt()
+        val stringTableLength = leBuffer.getInt()
 
         if (leBuffer.limit() != 4 + 4 + instructionsCount * INSTRUCTION_LENGTH + stringTableLength)
             throw IllegalArgumentException("文件格式错误！")
 
         instructions.ensureCapacity(instructionsCount)
         repeat(instructionsCount) {
-            instructions += LCSERawSNXInstruction(leBuffer.int, leBuffer.int, leBuffer.int)
+            instructions += LCSERawSNXInstruction(leBuffer.getInt(), leBuffer.getInt(), leBuffer.getInt())
         }
 
         val stringTableStartingOffset = leBuffer.position()
         var ordinal = 0
         while (leBuffer.remaining() >= 4) {
-            val length = leBuffer.int
+            val length = leBuffer.getInt()
             val tempBuf = ByteArray(length)
             leBuffer[tempBuf, 0, length]
             strings += LCSERawSNXString(ordinal++, leBuffer.position() - 4 - length - stringTableStartingOffset, tempBuf)
