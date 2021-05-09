@@ -10,13 +10,16 @@ import java.nio.file.StandardOpenOption
 import java.util.*
 import kotlin.experimental.xor
 
-val keyIndex = 0x02020202
+var keyIndex = 0x02020202
 fun indexDecryptInt(original: Int) = original xor keyIndex
 val indexEncryptInt = ::indexDecryptInt
 
-val keySNX = 0x03030303
+var keySNX = 0x03030303
 fun snxDecryptInt(original: Int) = original xor keySNX
 val snxEncryptInt = ::indexDecryptInt
+internal fun Int.expandByteToInt(): Int {
+    return this + (this shl 8) + (this shl 16) + (this shl 24)
+}
 
 val SHIFT_JIS = Charset.forName("SHIFT-JIS")!!
 

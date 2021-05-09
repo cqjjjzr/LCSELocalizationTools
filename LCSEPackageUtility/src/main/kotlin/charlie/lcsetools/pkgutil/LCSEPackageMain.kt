@@ -26,6 +26,8 @@ val opts = Options().apply {
     addOption(Option("d", "out-dir", true, "指定输出目录").apply { argName = "out-dir" })
     addOption(Option("e", "patch-dir", true, "指定用以替换数据包中文件的文件所在目录")
             .apply { argName = "patch-dir" })
+    addOption(Option("k", "key", true, "指定.lst清单文件的的加密key，格式为16进制两位数字"))
+    addOption(Option("K", "key-snx", true, "指定SNX文件的的加密key，格式为16进制两位数字"))
 }
 
 fun main(vararg args: String) {
@@ -36,6 +38,10 @@ fun main(vararg args: String) {
                     || (hasOption('r') && !hasOption('e')) || (hasOption('u') && hasOption('e'))) {
                 printUsageAndBoom()
             }
+            if (hasOption('k'))
+                keyIndex = getOptionValue('k').toInt(16).expandByteToInt()
+            if (hasOption('K'))
+                keySNX = getOptionValue('k').toInt(16).expandByteToInt()
 
             FileChannel.open(Paths.get(getOptionValue('l').removeSurrounding("\""))).use {
                 it.map(FileChannel.MapMode.READ_ONLY, 0, it.size()).let { listBuffer ->
