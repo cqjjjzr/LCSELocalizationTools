@@ -6,7 +6,7 @@ import java.nio.channels.FileChannel
 import java.nio.file.Paths
 import kotlin.system.exitProcess
 
-val VERSION = "rv1"
+val VERSION = "rv3"
 
 val opts = Options().apply {
     addOption("h", "help", false, "显示帮助")
