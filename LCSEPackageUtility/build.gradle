@@ -1,8 +1,8 @@
 group 'com.github.cqjjjzr'
-version 'rv2'
+version 'rv3'
 
 buildscript {
-    ext.kotlin_version = '1.1.2-2'
+    ext.kotlin_version = '1.7.0'
 
     repositories {
         mavenCentral()
@@ -19,12 +19,12 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile group: 'commons-io', name: 'commons-io', version: '2.5'
-    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.0'
 
-    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit', version:'1.1.0'
-    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testImplementation group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit', version: kotlin_version
+    testImplementation group: 'junit', name: 'junit', version:'4.13.2'
 }
 
 jar {

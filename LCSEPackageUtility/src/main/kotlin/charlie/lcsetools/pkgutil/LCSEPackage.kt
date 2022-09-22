@@ -48,7 +48,7 @@ class LCSEIndexList {
         }
     }
 
-    var entries: List<LCSEIndexEntry> = ArrayList()
+    var entries: MutableList<LCSEIndexEntry> = ArrayList()
 
     fun getByteArray(): ByteArray {
         return ByteBuffer.allocate(4 + entries.size * LCSEIndexEntry.ENTRY_SIZE)
@@ -208,8 +208,8 @@ constructor(internal val typeId: Int,
             return LCSEResourceType.values()
                     .filter { it.extensionName ==
                             if (extensionName.startsWith("."))
-                                extensionName.toLowerCase()
-                            else "." + extensionName.toLowerCase() }
+                                extensionName.lowercase()
+                            else "." + extensionName.lowercase() }
                     .firstOrNull() ?: UNKNOWN_1
         }
     }
