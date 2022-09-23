@@ -6,7 +6,7 @@ import java.nio.channels.FileChannel
 import java.nio.file.Paths
 import kotlin.system.exitProcess
 
-val VERSION = "rv3"
+val VERSION = "rv4"
 
 val opts = Options().apply {
     addOption("h", "help", false, "显示帮助")
@@ -41,7 +41,7 @@ fun main(vararg args: String) {
             if (hasOption('k'))
                 keyIndex = getOptionValue('k').toInt(16).expandByteToInt()
             if (hasOption('K'))
-                keySNX = getOptionValue('k').toInt(16).expandByteToInt()
+                keySNX = getOptionValue('K').toInt(16).expandByteToInt()
 
             FileChannel.open(Paths.get(getOptionValue('l').removeSurrounding("\""))).use {
                 it.map(FileChannel.MapMode.READ_ONLY, 0, it.size()).let { listBuffer ->

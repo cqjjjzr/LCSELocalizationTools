@@ -16,7 +16,7 @@ val indexEncryptInt = ::indexDecryptInt
 
 var keySNX = 0x03030303
 fun snxDecryptInt(original: Int) = original xor keySNX
-val snxEncryptInt = ::indexDecryptInt
+val snxEncryptInt = ::snxDecryptInt
 internal fun Int.expandByteToInt(): Int {
     return this + (this shl 8) + (this shl 16) + (this shl 24)
 }
